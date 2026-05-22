@@ -80,7 +80,7 @@
             display: none;
         }
 
-        /* CRÉDITO NA TELA DE LOGIN */
+        /* CRÃ‰DITO NA TELA DE LOGIN */
         .credito-login {
             margin-top: 25px;
             padding-top: 15px;
@@ -288,25 +288,25 @@
     <div id="telaLogin" class="login-container" style="display: block;">
         <h1>&#128272; Acesso Restrito</h1>
         <div class="subtitle">Calculadora de ICMS ST</div>
-        <input type="text" id="loginInput" placeholder="Usuário">
+        <input type="text" id="loginInput" placeholder="Usuario">
         <input type="password" id="senhaInput" placeholder="Senha">
         <button onclick="fazerLogin()">Entrar</button>
-        <div id="erroMsg" class="erro-msg" style="display: none;">&#10060; Usuário ou senha incorretos</div>
+        <div id="erroMsg" class="erro-msg" style="display: none;">&#10060; UsuÃ¡rio ou senha incorretos</div>
         
-        <!-- CRÉDITO NA TELA DE LOGIN -->
+        <!-- CRÃ‰DITO NA TELA DE LOGIN -->
         <div class="credito-login">
             &#128640; <span>BY: HENRIQUE JANKOWSKI</span> &#128187;
         </div>
     </div>
 
-    <!-- CALCULADORA (aparece só após login) -->
+    <!-- CALCULADORA (aparece sÃ³ apÃ³s login) -->
     <div id="calculadoraContainer" style="display: none;">
         <div class="container">
             <div class="logout">
                 <button onclick="fazerLogout()">&#128682; Sair</button>
             </div>
             <h1>&#128202; Calculadora de ICMS ST</h1>
-            <div class="subtitle-calc">Múltiplos Produtos | Viável Contabilidade</div>
+            <div class="subtitle-calc">MÃºltiplos Produtos | ViÃ¡vel Contabilidade</div>
 
             <div id="produtosContainer"></div>
 
@@ -322,7 +322,7 @@
 
             <div class="link-dar">
                 <a href="https://www.sefaz.mt.gov.br/arrecadacao/darlivre/menudarlivre" target="_blank">
-                    &#128196; Clique aqui para emitir o DAR (Documento de Arrecadação)
+                    &#128196; Clique aqui para emitir o DAR (Documento de ArrecadaÃ§Ã£o)
                 </a>
             </div>
 
@@ -337,7 +337,7 @@
         const USUARIO_CORRETO = "admin";
         const SENHA_CORRETA = "1234";
 
-        // Função de login
+        // FunÃ§Ã£o de login
         function fazerLogin() {
             const login = document.getElementById('loginInput').value;
             const senha = document.getElementById('senhaInput').value;
@@ -364,7 +364,7 @@
             produtoCount = 0;
         }
 
-        // ========== CÓDIGO DA CALCULADORA ==========
+        // ========== CÃ“DIGO DA CALCULADORA ==========
         let produtoCount = 0;
         let produtos = [];
 
@@ -399,11 +399,11 @@
                         <input type="number" id="mva-${produtoCount}" step="0.01" min="0" placeholder="Ex: 40,00" value="40">
                     </div>
                     <div class="form-group">
-                        <label>Alíquota ICMS Interna (%)</label>
+                        <label>AlÃ­quota ICMS Interna (%)</label>
                         <input type="number" id="aliquota-${produtoCount}" step="0.01" min="0" placeholder="Ex: 18,00" value="18">
                     </div>
                     <div class="form-group">
-                        <label>ICMS Próprio (R$)</label>
+                        <label>ICMS PrÃ³prio (R$)</label>
                         <input type="number" id="icmsProprio-${produtoCount}" step="0.01" min="0" placeholder="Ex: 180,00" value="0">
                     </div>
                 </div>
