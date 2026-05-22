@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<!-- saved from url=(0043)https://www.lncc.br/~borges/php/testar.html -->
+<html lang="pt-br"><head><meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora ICMS ST - Acesso Restrito</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        /* TELA DE LOGIN */
+        .login-container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+            padding: 40px;
+            max-width: 400px;
+            width: 100%;
+            text-align: center;
+        }
+
+        .login-container h1 {
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .login-container .subtitle {
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 14px;
+        }
+
+        .login-container input {
+            width: 100%;
+            padding: 14px;
+            margin-bottom: 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 16px;
+        }
+
+        .login-container input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .login-container button {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .login-container button:hover {
+            transform: scale(1.02);
+        }
+
+        .erro-msg {
+            color: #dc3545;
+            font-size: 14px;
+            margin-top: 15px;
+            display: none;
+        }
+
+        /* CRÉDITO NA TELA DE LOGIN */
+        .credito-login {
+            margin-top: 25px;
+            padding-top: 15px;
+            border-top: 1px solid #e0e0e0;
+            font-size: 12px;
+            color: #999;
+        }
+
+        .credito-login span {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            font-weight: bold;
+            font-size: 13px;
+        }
+
+        /* CALCULADORA */
+        .container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+            padding: 30px;
+            max-width: 800px;
+            width: 100%;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .subtitle-calc {
+            text-align: center;
+            color: #666;
+            margin-bottom: 30px;
+        }
+
+        .produto-card {
+            background: #f9f9f9;
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-left: 4px solid #667eea;
+            position: relative;
+        }
+
+        .produto-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .produto-titulo {
+            font-weight: bold;
+            color: #667eea;
+        }
+
+        .btn-remover {
+            background: #dc3545;
+            color: white;
+            border: none;
+            padding: 5px 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 12px;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin-bottom: 10px;
+        }
+
+        .form-group {
+            margin-bottom: 10px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 12px;
+            font-weight: 600;
+            color: #555;
+            margin-bottom: 5px;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 14px;
+        }
+
+        .resultado-produto {
+            margin-top: 15px;
+            background: #e8f4f8;
+            padding: 12px;
+            border-radius: 10px;
+            font-size: 14px;
+        }
+
+        .resultado-produto span {
+            font-weight: bold;
+            color: #667eea;
+        }
+
+        .btn-add {
+            background: #28a745;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 10px;
+            font-weight: bold;
+            cursor: pointer;
+            width: 100%;
+            margin-bottom: 20px;
+            font-size: 16px;
+        }
+
+        .btn-calcular {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 15px;
+            border-radius: 10px;
+            font-weight: bold;
+            font-size: 18px;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 10px;
+        }
+
+        .total-geral {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 15px;
+            margin-top: 25px;
+            text-align: center;
+        }
+
+        .total-geral h3 {
+            margin-bottom: 10px;
+        }
+
+        .total-geral .valor {
+            font-size: 32px;
+            font-weight: bold;
+        }
+
+        .link-dar {
+            margin-top: 20px;
+            background: #d4edda;
+            padding: 12px;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        .link-dar a {
+            color: #155724;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .credito {
+            margin-top: 20px;
+            text-align: center;
+            font-size: 12px;
+            color: #999;
+            border-top: 1px solid #e0e0e0;
+            padding-top: 15px;
+        }
+
+        .credito span {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            font-weight: bold;
+        }
+
+        .logout {
+            text-align: right;
+            margin-bottom: 20px;
+        }
+
+        .logout button {
+            background: #6c757d;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 12px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- TELA DE LOGIN -->
+    <div id="telaLogin" class="login-container" style="display: block;">
+        <h1>&#128272; Acesso Restrito</h1>
+        <div class="subtitle">Calculadora de ICMS ST</div>
+        <input type="text" id="loginInput" placeholder="Usuário">
+        <input type="password" id="senhaInput" placeholder="Senha">
+        <button onclick="fazerLogin()">Entrar</button>
+        <div id="erroMsg" class="erro-msg" style="display: none;">&#10060; Usuário ou senha incorretos</div>
+        
+        <!-- CRÉDITO NA TELA DE LOGIN -->
+        <div class="credito-login">
+            &#128640; <span>BY: HENRIQUE JANKOWSKI</span> &#128187;
+        </div>
+    </div>
+
+    <!-- CALCULADORA (aparece só após login) -->
+    <div id="calculadoraContainer" style="display: none;">
+        <div class="container">
+            <div class="logout">
+                <button onclick="fazerLogout()">&#128682; Sair</button>
+            </div>
+            <h1>&#128202; Calculadora de ICMS ST</h1>
+            <div class="subtitle-calc">Múltiplos Produtos | Viável Contabilidade</div>
+
+            <div id="produtosContainer"></div>
+
+            <button class="btn-add" onclick="adicionarProduto()">+ Adicionar Produto</button>
+            <button class="btn-calcular" onclick="calcularTodos()">Calcular ICMS ST Total</button>
+
+            <div id="resultadoTotal" style="display: none;">
+                <div class="total-geral">
+                    <h3>&#128176; ICMS ST TOTAL A RECOLHER</h3>
+                    <div class="valor" id="totalGeral">R$ 0,00</div>
+                </div>
+            </div>
+
+            <div class="link-dar">
+                <a href="https://www.sefaz.mt.gov.br/arrecadacao/darlivre/menudarlivre" target="_blank">
+                    &#128196; Clique aqui para emitir o DAR (Documento de Arrecadação)
+                </a>
+            </div>
+
+            <div class="credito">
+                &#128640; <span>BY: HENRIQUE JANKOWSKI</span> &#128187;
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // &#9881;&#65039; CONFIGURE AQUI SEU LOGIN E SENHA
+        const USUARIO_CORRETO = "admin";
+        const SENHA_CORRETA = "1234";
+
+        // Função de login
+        function fazerLogin() {
+            const login = document.getElementById('loginInput').value;
+            const senha = document.getElementById('senhaInput').value;
+            const erroMsg = document.getElementById('erroMsg');
+
+            if (login === USUARIO_CORRETO && senha === SENHA_CORRETA) {
+                document.getElementById('telaLogin').style.display = 'none';
+                document.getElementById('calculadoraContainer').style.display = 'block';
+                if (produtos.length === 0) adicionarProduto();
+            } else {
+                erroMsg.style.display = 'block';
+            }
+        }
+
+        function fazerLogout() {
+            document.getElementById('telaLogin').style.display = 'block';
+            document.getElementById('calculadoraContainer').style.display = 'none';
+            document.getElementById('loginInput').value = '';
+            document.getElementById('senhaInput').value = '';
+            document.getElementById('erroMsg').style.display = 'none';
+            document.getElementById('produtosContainer').innerHTML = '';
+            document.getElementById('resultadoTotal').style.display = 'none';
+            produtos = [];
+            produtoCount = 0;
+        }
+
+        // ========== CÓDIGO DA CALCULADORA ==========
+        let produtoCount = 0;
+        let produtos = [];
+
+        function adicionarProduto() {
+            produtoCount++;
+            const container = document.getElementById('produtosContainer');
+            const produtoDiv = document.createElement('div');
+            produtoDiv.classList.add('produto-card');
+            produtoDiv.id = `produto-${produtoCount}`;
+            produtoDiv.innerHTML = `
+                <div class="produto-header">
+                    <span class="produto-titulo">&#128230; Produto ${produtoCount}</span>
+                    <button class="btn-remover" onclick="removerProduto(${produtoCount})">Remover</button>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Valor do Produto (R$)</label>
+                        <input type="number" id="valor-${produtoCount}" step="0.01" min="0" placeholder="Ex: 1000,00">
+                    </div>
+                    <div class="form-group">
+                        <label>IPI (R$)</label>
+                        <input type="number" id="ipi-${produtoCount}" step="0.01" min="0" placeholder="Ex: 50,00" value="0">
+                    </div>
+                    <div class="form-group">
+                        <label>Frete + Despesas (R$)</label>
+                        <input type="number" id="despesas-${produtoCount}" step="0.01" min="0" placeholder="Ex: 100,00" value="0">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>MVA (%)</label>
+                        <input type="number" id="mva-${produtoCount}" step="0.01" min="0" placeholder="Ex: 40,00" value="40">
+                    </div>
+                    <div class="form-group">
+                        <label>Alíquota ICMS Interna (%)</label>
+                        <input type="number" id="aliquota-${produtoCount}" step="0.01" min="0" placeholder="Ex: 18,00" value="18">
+                    </div>
+                    <div class="form-group">
+                        <label>ICMS Próprio (R$)</label>
+                        <input type="number" id="icmsProprio-${produtoCount}" step="0.01" min="0" placeholder="Ex: 180,00" value="0">
+                    </div>
+                </div>
+                <div class="resultado-produto" id="resultado-${produtoCount}" style="display: none;">
+                    ICMS ST deste produto: <span id="valorSt-${produtoCount}">R$ 0,00</span>
+                </div>
+            `;
+            container.appendChild(produtoDiv);
+            produtos.push(produtoCount);
+        }
+
+        function removerProduto(id) {
+            const elemento = document.getElementById(`produto-${id}`);
+            elemento.remove();
+            produtos = produtos.filter(p => p !== id);
+            if (produtos.length === 0) {
+                document.getElementById('resultadoTotal').style.display = 'none';
+            }
+        }
+
+        function calcularICMSProduto(id) {
+            let valorProduto = parseFloat(document.getElementById(`valor-${id}`).value) || 0;
+            let ipi = parseFloat(document.getElementById(`ipi-${id}`).value) || 0;
+            let despesas = parseFloat(document.getElementById(`despesas-${id}`).value) || 0;
+            let mva = parseFloat(document.getElementById(`mva-${id}`).value) || 0;
+            let aliquota = parseFloat(document.getElementById(`aliquota-${id}`).value) || 0;
+            let icmsProprio = parseFloat(document.getElementById(`icmsProprio-${id}`).value) || 0;
+
+            if (valorProduto <= 0) return 0;
+
+            let baseSemMVA = valorProduto + ipi + despesas;
+            let baseST = baseSemMVA * (1 + (mva / 100));
+            let icmsTotal = baseST * (aliquota / 100);
+            let icmsST = icmsTotal - icmsProprio;
+            icmsST = icmsST < 0 ? 0 : icmsST;
+
+            document.getElementById(`resultado-${id}`).style.display = 'block';
+            document.getElementById(`valorSt-${id}`).innerHTML = `R$ ${icmsST.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}`;
+
+            return icmsST;
+        }
+
+        function calcularTodos() {
+            let totalGeral = 0;
+            let temProduto = false;
+
+            for (let id of produtos) {
+                let valor = parseFloat(document.getElementById(`valor-${id}`).value) || 0;
+                if (valor > 0) {
+                    temProduto = true;
+                    totalGeral += calcularICMSProduto(id);
+                }
+            }
+
+            if (!temProduto) {
+                alert('Adicione pelo menos um produto e informe o valor.');
+                return;
+            }
+
+            document.getElementById('resultadoTotal').style.display = 'block';
+            document.getElementById('totalGeral').innerHTML = `R$ ${totalGeral.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}`;
+        }
+    </script>
+
+
+
+		</body></html>
